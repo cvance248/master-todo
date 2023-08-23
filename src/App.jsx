@@ -1,33 +1,125 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { AiOutlineArrowLeft } from 'react-icons/ai';
+import { FaEllipsisH } from 'react-icons/fa';
+import TodoItem from './components/Todo'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [display, setDisplay] = useState('open');
+  const [toDoList, setToDoList] = useState([]);
+  const [search, setSearch] = useState('');
+  const [showMenu, setShowMenu] = useState(false);
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
+    function getList() {
+      fetch('https://jsonplaceholder.typicode.com/posts')
+        .then(response => response.json())
+        .then(data => setToDoList(data.map(item => ({ ...item, completed: false }))));
+        console.log(toDoList);
+    }
+
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      // Handle form submission logic here
+    };
+
+    const handleToggleComplete = (id) => {
+      // Implement your toggle complete logic here
+      setToDoList(toDoList.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : todo))
+      console.log(toDoList.filter(todo => todo.id === id)[0]);
+    };
+  
+    const handleEdit = () => {
+      // Implement your edit logic here
+    };
+  
+    const handleDelete = (id) => {
+      // Implement your delete logic here
+      setToDoList(toDoList.filter(todo => todo.id !== id))
+      console.log(toDoList.filter(todo => todo.id !== id))
+    };
+ 
+  useEffect(() => {
+    getList();
+  },[]);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="fixed">
+
+      <div id='header'>
+        <div>
+        <h1>ToDo's</h1>
+        </div>
+        <div>
+        <div><FaEllipsisH onClick={toggleMenu} /></div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+
+      <div id='tabs'>
+        <div onClick={() => setDisplay('open')}>Open</div>
+        <div onClick={() => setDisplay('closed')}>Closed</div>
+        </div>
+    </div>
+    <button className="toggle-button" onClick={toggleMenu}>
+        Add ToDo
+      </button>
+      <div className={`menu-container ${showMenu ? 'show' : ''}`}>
+        <div className="slide-up-menu">
+          <button onClick={toggleMenu} className="close-button">
+            <AiOutlineArrowLeft />
+          </button>
+          <p>Add ToDo</p>
+          <div className="inputs">
+          <input type="text" name="" id="" />
+          <input type="text" name="" id="" />
+          <input type="text" name="" id="" />
+          </div>
+          <div className="finish">
+          <button>Finish</button>
+          <button>Quit</button>
+          </div>
+        </div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    
+    <div className="content">
+      <div className="search">
+        <input className='searchInput' type="text" placeholder="Search Todo's" onChange={e => setSearch(e.target.value)} />
+      </div>
+      <div className={display === 'open' ? 'open' : 'hide'}>
+        {toDoList.filter(item => search.toLowerCase() ? item.title.toLowerCase().includes(search.toLowerCase()) : item).filter(item => item.completed === false).map(todo => 
+          (<TodoItem
+            key={todo.id}
+            title={todo.title}
+            user={todo.userId}
+            completed={todo.completed}
+            onToggleComplete={() => handleToggleComplete(todo.id)}
+            onEdit={() => handleEdit(todo.id)}
+            onDelete={() => handleDelete(todo.id)}
+            />)
+            )}
+        </div>
+
+      <div className={display === 'closed' ? 'closed' : 'hide'}>
+        {toDoList.filter(item => search.toLowerCase() ? item.title.toLowerCase().includes(search.toLowerCase()) : item).filter(item => item.completed === true).map(todo => 
+          (<TodoItem
+            key={todo.id}
+            title={todo.title}
+            user={todo.userId}
+            completed={todo.completed}
+            onToggleComplete={() => handleToggleComplete(todo.id)}
+            onEdit={() => handleEdit(todo.id)}
+            onDelete={() => handleDelete(todo.id)}
+            />)
+            )}
+        </div>
+        
+            </div>
     </>
   )
 }

@@ -1,0 +1,48 @@
+.todo-item {
+    display: flex;
+    width: 95%;
+    align-items: center;
+    align-content: center;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: auto;
+    margin-bottom: 8px;
+    background: #292639;
+
+  }
+  
+  .completed {
+    text-decoration: line-through;
+  }
+  
+  .todo-icon {
+    margin-right: 12px;
+    cursor: pointer;
+  }
+  
+  .todo-menu {
+    margin-left: auto;
+    cursor: pointer;
+  }
+  
+  .menu-dropdown {
+    /* position: absolute; */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 4px;
+    top: 30px;
+    right: 0;
+    z-index: 1;
+  }
+  
+  .menu-dropdown button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 4px;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
