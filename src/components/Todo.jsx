@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { RiCheckboxCircleLine, RiCheckboxBlankLine } from 'react-icons/ri';
 import { AiOutlineEllipsis, AiFillCheckCircle } from 'react-icons/ai';
 import { BiSolidCircle } from 'react-icons/bi';
-import './TodoItem.css'; // Create this CSS file to style the component
+import './TodoItem.css';
 
 const TodoItem = ({ title, user, completed, id, onToggleComplete, onEdit, onDelete, onData }) => {
   const [showMenu, setShowMenu] = useState(false);
