@@ -9,27 +9,43 @@
     margin: auto;
     margin-bottom: 8px;
     background: #292639;
-
+    border:none;
+    height: 75px;
   }
-  
-  .completed {
-    text-decoration: line-through;
+
+  .todo-item:hover {
+    background: #3f3c4e;
   }
   
   .todo-icon {
     margin-right: 12px;
     cursor: pointer;
+    height: 48px;
+    width: 48px;
   }
   
   .todo-menu {
     margin-left: auto;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .todo-user {
+    margin-top: 8px;
+    background-color: #3f3c4e;
+    width: fit-content;
+    padding: 1px 5px;
+    border-radius: 5px;
   }
   
   .menu-dropdown {
-    /* position: absolute; */
-    background-color: #fff;
-    border: 1px solid #ccc;
+    margin-bottom: -90px;
+    z-index: 999;
+    background-color: black;
+    border: 1px solid black;
+    border-radius: 10px;
     padding: 4px;
     top: 30px;
     right: 0;
@@ -44,5 +60,6 @@
     border: none;
     background: none;
     cursor: pointer;
+    color: #ccc;
   }
   

@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { RiCheckboxCircleLine, RiCheckboxBlankLine } from 'react-icons/ri';
-import { AiOutlineEllipsis } from 'react-icons/ai';
+import { AiOutlineEllipsis, AiFillCheckCircle } from 'react-icons/ai';
+import { BiSolidCircle } from 'react-icons/bi';
 import './TodoItem.css'; // Create this CSS file to style the component
 
-const TodoItem = ({ title, user, completed, onToggleComplete, onEdit, onDelete }) => {
+const TodoItem = ({ title, user, completed, id, onToggleComplete, onEdit, onDelete, onData }) => {
   const [showMenu, setShowMenu] = useState(false);
+  const [dataToEdit, setDataToEdit] = useState('');
+
+  const handleEditData = () => {
+    onData(title,id);
+  };
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -12,19 +18,28 @@ const TodoItem = ({ title, user, completed, onToggleComplete, onEdit, onDelete }
 
   return (
     <div className={`todo-item ${completed ? 'completed' : ''}`}>
-      <div className="todo-icon" onClick={onToggleComplete}>
-        {completed ? <RiCheckboxCircleLine /> : <RiCheckboxBlankLine />}
+      <div className="todo-icon">
+        {completed ? <AiFillCheckCircle 
+          style={{color: '#6BDD8A', fontSize: '3rem', backgroundColor: 'white', borderRadius: '50%', padding: '-1px'}}/> : <BiSolidCircle
+          style={{color: '#3B3753', fontSize: '3rem', borderRadius: '50%'}} />}
       </div>
       <div className="todo-details">
         <div className="todo-title">{title}</div>
         <div className="todo-user">User: {user}</div>
       </div>
       <div className="todo-menu">
-        <AiOutlineEllipsis onClick={toggleMenu} />
+        <AiOutlineEllipsis onClick={toggleMenu} 
+          style={{justifyContent: "right"}}/>
         {showMenu && (
           <div className="menu-dropdown">
-            <button onClick={onEdit}>Edit</button>
-            <button onClick={onDelete}>Delete</button>
+            <button onClick={() => {
+                toggleMenu();
+                onEdit()
+              setDataToEdit(title,id);
+              handleEditData();
+                }}>Edit ToDo</button>
+            {completed ? (<button onClick={onToggleComplete}>Mark Incomplete</button>) : (<button onClick={onToggleComplete}>Mark Completed</button>)}
+            {completed && (<button onClick={onDelete}>Delete</button>)}
           </div>
         )}
       </div>
