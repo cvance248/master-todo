@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AiOutlineEllipsis, AiFillCheckCircle } from 'react-icons/ai';
 import { BiSolidCircle } from 'react-icons/bi';
-import './TodoItem.css';
+import '..components/Todo.css';
 
 const TodoItem = ({ title, user, completed, id, onToggleComplete, onEdit, onDelete, onData }) => {
   const [showMenu, setShowMenu] = useState(false);
